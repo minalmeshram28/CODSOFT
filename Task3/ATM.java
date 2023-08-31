@@ -35,17 +35,17 @@ public class ATM {
     }
 
     private void checkBalance() {
-        System.out.println("Current Balance: $" + bankAccount.getBalance());
+        System.out.println("Current Balance: Rs" + bankAccount.getBalance());
     }
 
     private void deposit() {
-        System.out.print("Enter the amount to deposit: $");
+        System.out.print("Enter the amount to deposit: Rs");
         double amount = sc.nextDouble();
         bankAccount.deposit(amount);
     }
 
     private void withdraw() {
-        System.out.print("Enter the amount to withdraw: $");
+        System.out.print("Enter the amount to withdraw: Rs");
         double amount = sc.nextDouble();
         bankAccount.withdraw(amount);
     }
