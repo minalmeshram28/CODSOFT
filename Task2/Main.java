@@ -2,6 +2,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        System.out.println("**********STUDENT GRADE CALCULATOR**********");
         Subject physics = new Subject("Physics");
         Subject chemistry = new Subject("Chemistry");
         Subject maths = new Subject("Maths");
