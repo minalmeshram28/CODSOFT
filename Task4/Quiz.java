@@ -36,10 +36,10 @@ class Quiz {
             }
 
             startTimer(currentQuestion);
-            System.out.println("DEBUG: Timer started.");
+            
 
             int selectedOptionIndex = getUserChoice(options.size());
-            System.out.println("DEBUG: Selected option: " + selectedOptionIndex);
+           
             processAnswer(selectedOptionIndex);
 
 
