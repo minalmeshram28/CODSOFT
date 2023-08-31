@@ -2,7 +2,6 @@ create database quiz_database;
 use quiz_database;
 
 create table questions(
-id int auto_increment primary key,
 question text,
 option1 text,
 option2 text,
