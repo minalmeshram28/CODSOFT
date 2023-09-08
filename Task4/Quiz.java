@@ -1,14 +1,9 @@
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Scanner;
 
 class Quiz {
-
     private List<Question> questions;
     private int currentQuestionIndex;
     private int score;
@@ -22,27 +17,22 @@ class Quiz {
     }
 
     public void startQuiz() {
-        displayCurrentQuestion();
+        displayNextQuestion();
     }
 
-    private void displayCurrentQuestion() {
+    private void displayNextQuestion() {
         if (currentQuestionIndex < questions.size()) {
             Question currentQuestion = questions.get(currentQuestionIndex);
             System.out.println(currentQuestion.getQuestion());
-
             List<String> options = currentQuestion.getOptions();
+
             for (int i = 0; i < options.size(); i++) {
                 System.out.println((i + 1) + ". " + options.get(i));
             }
 
             startTimer(currentQuestion);
-            
-
             int selectedOptionIndex = getUserChoice(options.size());
-           
             processAnswer(selectedOptionIndex);
-
-
         } else {
             showResult();
         }
@@ -54,9 +44,9 @@ class Quiz {
 
         while (selectedOptionIndex < 0 || selectedOptionIndex >= maxOption) {
             System.out.print("Enter your answer (1-4): ");
-            selectedOptionIndex = scanner.nextInt()-1;
+            selectedOptionIndex = scanner.nextInt() - 1;
 
-            if (selectedOptionIndex < 0 || selectedOptionIndex >=maxOption) {
+            if (selectedOptionIndex < 0 || selectedOptionIndex >= maxOption) {
                 System.out.println("Invalid choice. Please enter a valid option.");
             }
         }
@@ -65,51 +55,42 @@ class Quiz {
     }
 
     private void startTimer(Question question) {
+        if (timer != null) {
+            timer.cancel();
+        }
+
+        timer = new Timer();
+
         timer.schedule(new TimerTask() {
             @Override
             public void run() {
+                System.out.println("Time's up! You didn't answer this question.\n");
                 processAnswer(-1);
             }
         }, 15000);
     }
 
 
-
-
     public void processAnswer(int selectedOptionIndex) {
+        timer.cancel();
         Question currentQuestion = questions.get(currentQuestionIndex);
-        if (selectedOptionIndex == -1) {
-            System.out.println("Time's up! You didn't answer this question.\n");
-            currentQuestionIndex++;
-            displayNextOrShowResult();
-//            return;
-        }
 
-        if (currentQuestion.isCorrect(selectedOptionIndex)) {
+        if (selectedOptionIndex == -1) {
+            
+            currentQuestionIndex++;
+        } else if (currentQuestion.isCorrect(selectedOptionIndex)) {
             System.out.println("Correct!\n");
             score++;
+            currentQuestionIndex++;
         } else {
             System.out.println("Incorrect.\n");
+            currentQuestionIndex++;
         }
 
-        currentQuestionIndex++;
-        displayNextOrShowResult();
+        displayNextQuestion();
     }
-
-    private void displayNextOrShowResult() {
-        if (currentQuestionIndex < questions.size()) {
-            displayCurrentQuestion();
-
-        } else {
-            showResult();
-        }
-    }
-
 
     private void showResult() {
-
         System.out.println("Quiz ended. Your score: " + score + "/" + questions.size());
     }
 }
-
-
